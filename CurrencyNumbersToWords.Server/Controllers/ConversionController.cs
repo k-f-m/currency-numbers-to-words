@@ -1,7 +1,5 @@
 ﻿using CurrencyNumbersToWords.Server.Data.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CurrencyNumbersToWords.Server.Controllers
 {
@@ -35,14 +33,14 @@ namespace CurrencyNumbersToWords.Server.Controllers
             // Check if the input is a valid decimal number.
             if (!decimal.TryParse(inputString, out decimal value))
             {
-                return BadRequest("Please only enter numbers. Use ',' (comma) as a decimal separator if needed.");
+                return BadRequest("Only digits, spaces, and ',' (comma) are valid entries. Use ',' as a decimal separator.");
             }
 
             // Check if the input is within the valid range ($0-999 999 999,99).
             // Note: TryParse() removes comma that results in a higher value
             if (value > 99999999999m || value < 0)
             {
-                return UnprocessableEntity("Out of range! Please enter a number between $0-999 999 999,99.");
+                return UnprocessableEntity("Please enter a number between $0-999 999 999,99.");
             }
 
             // Check if the input contains more than one decimal separator.
