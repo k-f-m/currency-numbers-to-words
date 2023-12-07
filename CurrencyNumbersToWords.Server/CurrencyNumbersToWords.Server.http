@@ -1,0 +1,6 @@
+@CurrencyNumbersToWords.Server_HostAddress = http://localhost:5198
+
+GET {{CurrencyNumbersToWords.Server_HostAddress}}/api/Conversion
+Accept: application/json
+
+###
