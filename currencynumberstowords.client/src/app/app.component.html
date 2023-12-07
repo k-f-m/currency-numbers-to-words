@@ -1,0 +1,35 @@
+<p>
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Currency Numbers to Word</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>
+
+<p>This web application converts currency (dollars) from numbers to words.</p>
+
+<p>Please enter a value between $0 and $999 999 999,99. Use ',' (comma) as the decimal separator.</p>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Enter a number</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form #num="ngForm" (ngSubmit)="onSubmit(num)" novalidate la>
+      <mat-form-field>
+        <mat-label>Dollar value</mat-label>
+        <input matInput type="text" name="input" ngModel required #number="ngModel" placeholder="$0–999 999 999,99" maxlength="14">
+      </mat-form-field>
+      <button mat-raised-button color="primary">SUBMIT</button>
+    </form>
+    <p *ngIf="convertedValue"><b>{{ convertedValue }}</b></p>
+  </mat-card-content>
+</mat-card>
