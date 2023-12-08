@@ -36,11 +36,20 @@ namespace CurrencyNumbersToWords.Server.Controllers
                 return BadRequest("Only digits, spaces, and ',' (comma) are valid entries. Use ',' as a decimal separator.");
             }
 
-            // Check if the input is within the valid range ($0-999 999 999,99).
-            // Note: TryParse() removes comma that results in a higher value
-            if (value > 99999999999m || value < 0)
+            // Check if the whole number is within the valid range ($0-999 999 999,99).
+            string[] dollarParts = [];
+            try
             {
-                return UnprocessableEntity("Please enter a number between $0-999 999 999,99.");
+                dollarParts = inputString.Split(',');
+
+                if (dollarParts[0].Length > 9 || value < 0)
+                {
+                    return UnprocessableEntity("Please enter a number between $0-999 999 999,99.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred: {ex.Message}");
             }
 
             // Check if the input contains more than one decimal separator.
@@ -51,12 +60,11 @@ namespace CurrencyNumbersToWords.Server.Controllers
                 return BadRequest("Please enter only a single ',' (comma) as the decimal separator.");
             }
 
-            // Check that the maximum number of cents is 99 and store the whole and fractional parts in two integer variables.
+            // Check that the maximum number of cents is 99, if true, store the whole and fractional parts in two integer variables.
             int dollars = 0;
             int cents = 0;
             try
             {
-                string[] dollarParts = inputString.Split(',');
                 if (dollarParts.Length > 1)
                 {
                     if (dollarParts[1].Length > 2)
@@ -72,7 +80,7 @@ namespace CurrencyNumbersToWords.Server.Controllers
                     {
                         dollars = int.Parse(dollarParts[0]);
                         cents = int.Parse(dollarParts[1]);
-                        cents = cents * 10;
+                        cents *= 10;
                     }
                 }
                 else
